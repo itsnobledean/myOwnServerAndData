@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Form</title>
+    <link rel="stylesheet" href="../styles/main.css" type="text/css" />
+  </head>
+  <body>
+    <form action="/messages" method="post">
+      <label id="name-label" class="name-label" for="name">Name:</label>
+      <input type="text" id="name" name="name" required />
+
+      <label id="email-label" class="email-label" for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+
+      <label id="message-label" class="message-label" for="message"
+        >Message:</label
+      >
+      <textarea id="message" name="message" required></textarea>
+
+      <button id="submit-button" class="submit-button" type="submit">
+        Submit
+      </button>
+    </form>
+    <script>
+      async function submitForm(event) {
+        event.preventDefault();
+        const name = event.target.elements.name.value;
+        const email = event.target.elements.email.value;
+        const message = event.target.elements.message.value;
+
+        const response = await fetch("/submit-form", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, email, message }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+      }
+    </script>
+  </body>
+</html>
